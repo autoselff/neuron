@@ -7,4 +7,6 @@ add_executable(${PROJECT_NAME}
     src/main.c
     src/neuron/neuron.h
     src/neuron/neuron.c
+    src/neuron/training.h
+    src/neuron/training.c
 )

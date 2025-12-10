@@ -24,10 +24,6 @@ Neuron init_neuron(int input_size, double accuracy) {
     return neuron;
 }
 
-/**
- * If the result is greater than 0, it means that the data represents a ring.
- * However, if the result is less than 0, it means a pen.
- */
 double activate(Neuron* neuron, double* inputs) {
     double result = 0.0;
 
@@ -40,16 +36,21 @@ double activate(Neuron* neuron, double* inputs) {
 }
 
 void train_step(Neuron* neuron, double* inputs, bool expected_answer) {
+    // Get current prediction
     double result = activate(neuron, inputs);
     bool predicted_answer = (result > 0.0);
 
+    // Only update if prediction is wrong
     if (predicted_answer != expected_answer) {
+        // Determine direction of update: +1 for ring, -1 for pen
         double multiplier = expected_answer ? 1.0 : -1.0;
         
+        // Update each weight: w[i] = w[i] + input[i] * learning_rate * direction
         for (int i = 0; i < neuron->input_size; i++) {
             neuron->weights[i] += inputs[i] * neuron->accuracy * multiplier;
         }
         
+        // Update bias: bias = bias + learning_rate * direction
         neuron->bias += neuron->accuracy * multiplier;
     }
 }
