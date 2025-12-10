@@ -1,7 +1,4 @@
-#include "neuron_network.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include "neuron/neuron.h"
 
 #define TRAINING_SIZE 8
 
@@ -20,9 +17,10 @@ const bool labels[TRAINING_SIZE] = {true, true, true, true, false, false, false,
 
 int main(void) {
     srand(time(NULL));
+    system("clear");
 
     int epochs;
-    printf("Hello I'm Neuron, today I will decide weather the values belong to a ring or a pen.\n");
+    printf("Hello, I am Neuron. Today, I will decide whether the values belong to the ring or to the pen.\n");
     printf("How many training sessions should I conduct?\n> ");
     
     while (scanf("%d", &epochs) != 1 || epochs <= 0 || getchar() != '\n') {
@@ -30,22 +28,22 @@ int main(void) {
     	while (getchar() != '\n');
     }
 
-    NeuronNetwork network = init_network(2, 0.02);
+    Neuron neuron = init_neuron(2, 0.02);
 
-    printf("Start weights: w1=%.4f, w2=%.4f, bias=%.4f\n\n", network.weights[0], network.weights[1], network.bias);
+    printf("Start weights: w1=%.4f, w2=%.4f, bias=%.4f\n\n", neuron.weights[0], neuron.weights[1], neuron.bias);
     printf("The training is starting.\n");
     
     for (int epoch = 0; epoch < epochs; epoch++) {
         int correct_predictions = 0;
 
         for (int i = 0; i < TRAINING_SIZE; i++) {
-            double result = activate(&network, training_data[i]);
+            double result = activate(&neuron, training_data[i]);
             bool predicted = (result > 0.0);
 
             if (predicted == labels[i]) {
                 correct_predictions++;
             } else {
-                train_step(&network, training_data[i], labels[i]);
+                train_step(&neuron, training_data[i], labels[i]);
             }
         }
         if (correct_predictions == TRAINING_SIZE) {
@@ -56,10 +54,10 @@ int main(void) {
         }
     }
 
-    printf("\nFinal weights: w1=%.4f, w2=%.4f, bias=%.4f\n\n", network.weights[0], network.weights[1], network.bias);
+    printf("\nFinal weights: w1=%.4f, w2=%.4f, bias=%.4f\n\n", neuron.weights[0], neuron.weights[1], neuron.bias);
 
     for (int i = 0; i < TRAINING_SIZE; i++) {
-        double result = activate(&network, training_data[i]);
+        double result = activate(&neuron, training_data[i]);
         bool predicted = (result > 0.0);
 
         printf("Data [%.0f, %.0f] | Prediction: %s | Expected: %s | Result: %.4f %s |\n",
@@ -70,6 +68,6 @@ int main(void) {
                predicted == labels[i] ? "\033[32mCORRECT\033[0m" : "\033[31mWRONG\033[0m");
     }
 
-    free_network(&network);
+    free_neuron(&neuron);
     return 0;
 }

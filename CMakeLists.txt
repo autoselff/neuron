@@ -5,6 +5,6 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(${PROJECT_NAME} 
     src/main.c
-    src/neuron_network.h
-    src/neuron_network.c
+    src/neuron/neuron.h
+    src/neuron/neuron.c
 )
