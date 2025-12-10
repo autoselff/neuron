@@ -1,5 +1,5 @@
+// https://www.youtube.com/watch?v=98uGsNvkzTI
 #include "neuron/neuron.h"
-
 #define TRAINING_SIZE 8
 
 const double training_data[TRAINING_SIZE][2] = {
