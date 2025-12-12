@@ -48,10 +48,10 @@ bool* generate_training_labels(double** data, int size) {
     
     for (int i = 0; i < size; i++) {
         if (data[i][0] < 300 && data[i][1] < 100) {
-            labels[i] = true;  // Ring
+            labels[i] = true;
         }
         else {
-            labels[i] = false; // Pen
+            labels[i] = false;
         }
     }
     
